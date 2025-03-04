@@ -31,3 +31,19 @@ class F1VS:
         # Combine elements, ensuring 0 is common
         combined_elements = self.elements | other.elements
         return F1VS(combined_elements)
+    
+    def quotient_space(self, subspace):
+        """
+        Compute the quotient space V/W where W is a subspace of V.
+        """
+        if not isinstance(subspace, F1VS):
+            raise TypeError("Quotient space is only defined between F1VS instances.")
+        if not subspace.elements.issubset(self.elements):
+            raise ValueError("The subspace must be a subset of the original vector space.")
+        
+        # Define the equivalence classes
+        quotient_elements = set()
+        for v in self.elements:
+            if v not in subspace.elements:
+                quotient_elements.add(v)   
+        return F1VS(quotient_elements)
