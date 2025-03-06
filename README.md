@@ -15,4 +15,4 @@ In this project I have developed my firt a Python module named `F1` that allows 
 - **F1 Linear Maps**: Create the F1 linear maps between two F1 Vector spaces.
 - **Future Work**: Plans to implement additional methods and functionalities.
 
-- **To see the usage of F1 see the test.ipynb**
+- **To see the usage of F1 see the [test.ipynb](https://github.com/neleazar/Mathematics/blob/main/test.ipynb).**
