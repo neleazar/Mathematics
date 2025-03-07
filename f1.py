@@ -56,11 +56,9 @@ class F1VS:
 
 class F1Map:
     def __init__(self, V1, V2, mapping):
-        """
-        Define a map f: V1 → V2 where:
+        """Define a function f: V1 → V2 that satisfies:
         - f(0) = 0
-        - Each nonzero in V1 maps to either 0 or a unique nonzero in V2 (injectivity).
-        """
+        - Injectivity on nonzero elements: No two elements map to the same nonzero."""
         if not isinstance(V1, F1VS) or not isinstance(V2, F1VS):
             raise TypeError("Both domain and codomain must be instances of F1VS.")
         
@@ -68,7 +66,7 @@ class F1Map:
         self.V2 = V2
         self.mapping = {}
 
-                # Ensure 0 maps to 0
+        # Ensure 0 maps to 0
         if mapping.get(0, 0) != 0:
             raise ValueError("The function must map 0 to 0.")
 
@@ -81,10 +79,10 @@ class F1Map:
                     if v2 in used_values:
                         raise ValueError("Injectivity violated: Two elements of V1 map to the same nonzero in V2.")
                     if v2 not in V2.elements:
-                        raise ValueError(f"Element {v2} is not in the codomain V2.")
+                        raise ValueError(f"Element {v2} is not in V2.")
                     used_values.add(v2)
                 elif v2 not in V2.elements:
-                    raise ValueError(f"Element {v2} is not in the codomain V2.")
+                    raise ValueError(f"Element {v2} is not in V2.")
             
             self.mapping[v1] = v2  # Store the valid mapping
 
@@ -94,5 +92,5 @@ class F1Map:
     def apply(self, element):
         """Apply the function to an element of V1."""
         if element not in self.V1.elements:
-            raise ValueError(f"Element {element} is not in the domain V1.")
+            raise ValueError(f"Element {element} is not in V1.")
         return self.mapping.get(element, 0)  # Default to 0 if not explicitly mapped
