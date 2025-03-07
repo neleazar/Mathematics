@@ -94,3 +94,13 @@ class F1Map:
         if element not in self.V1.elements:
             raise ValueError(f"Element {element} is not in V1.")
         return self.mapping.get(element, 0)  # Default to 0 if not explicitly mapped
+    
+    def kernel(self):
+        """Compute the kernel of the map (elements in V1 that map to 0 in V2)."""
+        kernel_elements = {x for x in self.V1.elements if self.mapping.get(x, 0) == 0}
+        return F1VS(kernel_elements)
+    
+    def image(self):
+        """Compute the image of the map (elements in V2 that are mapped to)."""
+        image_elements = {self.mapping.get(x, 0) for x in self.V1.elements}
+        return F1VS(image_elements)
