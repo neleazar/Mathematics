@@ -104,3 +104,15 @@ class F1Map:
         """Compute the image of the map (elements in V2 that are mapped to)."""
         image_elements = {self.mapping.get(x, 0) for x in self.V1.elements}
         return F1VS(image_elements)
+
+    def is_isomorphic(self):
+        """Check if the function is an isomorphism (bijective)."""
+        # Check injectivity (kernel must be {0})
+        if self.kernel().elements != {0}:
+            return False
+
+        # Check surjectivity (image must be equal to V2)
+        if self.image().elements != self.V2.elements:
+         return False
+
+        return True
