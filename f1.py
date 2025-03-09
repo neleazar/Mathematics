@@ -1,3 +1,4 @@
+import numpy as np
 class F1VS:
     def __init__(self, elements):
         """
@@ -56,6 +57,7 @@ class F1VS:
 
 class F1Map:
     def __init__(self, V1, V2, mapping):
+    
         """Define a function f: V1 → V2 that satisfies:
         - f(0) = 0
         - Injectivity on nonzero elements: No two elements map to the same nonzero."""
@@ -116,3 +118,40 @@ class F1Map:
          return False
 
         return True
+    
+    
+    def to_matrix(self):
+            """Convert the F1Map to a binary NumPy matrix."""
+            # Get nonzero elements only (ignoring 0)
+            v1_nonzero = sorted(self.V1.elements - {0})
+            v2_nonzero = sorted(self.V2.elements - {0})
+
+            # Get dimensions
+            dim_v1 = len(v1_nonzero)
+            dim_v2 = len(v2_nonzero)
+
+            # Create a zero matrix of shape (dim_v2, dim_v1)
+            matrix = np.zeros((dim_v2, dim_v1), dtype=int)
+
+            # Fill the matrix
+            for j, v1_elem in enumerate(v1_nonzero):
+                mapped_elem = self.mapping.get(v1_elem, 0)
+
+                if mapped_elem in v2_nonzero:
+                    i = v2_nonzero.index(mapped_elem)
+                    matrix[i, j] = 1  # Mark mapping
+
+            return matrix
+    def iter_endomorphism(self, index):
+        """Compute the endomorphism of a given index (apply the function multiple times)."""
+        if index < 1:
+            raise ValueError("Index must be at least 1.")
+
+        current_map = self  # Start with the original endomorphism
+
+        for _ in range(index - 1):  # Apply (index-1) times
+            image_space = current_map.image()
+            new_mapping = {x: self.mapping.get(x, 0) for x in image_space.elements}
+            current_map = F1Map(image_space, image_space, new_mapping)
+
+        return current_map  # Return the final endomorphism    
